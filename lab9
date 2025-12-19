@@ -1,0 +1,264 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Лабораторна робота 9',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        useMaterial3: true,
+      ),
+      home: const MyHomePage(),
+      debugShowCheckedModeBanner: false,
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Лаб. робота 9 - Статефул віджети'),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: UserProfileCard(
+            userName: 'Мельник Назар',
+            initialAge: 22,
+            userFaculty: 'Комп\'ютерні науки',
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// Власний StatefulWidget з трьома властивостями
+class UserProfileCard extends StatefulWidget {
+  final String userName;
+  final int initialAge;
+  final String userFaculty;
+
+  const UserProfileCard({
+    super.key,
+    required this.userName,
+    required this.initialAge,
+    required this.userFaculty,
+  });
+
+  @override
+  State<UserProfileCard> createState() => _UserProfileCardState();
+}
+
+class _UserProfileCardState extends State<UserProfileCard> {
+  // Змінні стану
+  int _currentAge;
+  int _clickCount = 0;
+  Color _cardColor = Colors.lightBlue;
+  bool _showDetails = true;
+
+  // Конструктор стану
+  _UserProfileCardState() : _currentAge = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentAge = widget.initialAge; // Використовуємо значення з конструктора
+  }
+
+  // Методи для зміни стану
+  void _incrementAge() {
+    setState(() {
+      _currentAge++;
+      _clickCount++;
+      _changeCardColor();
+    });
+  }
+
+  void _decrementAge() {
+    setState(() {
+      if (_currentAge > 0) _currentAge--;
+      _clickCount++;
+      _changeCardColor();
+    });
+  }
+
+  void _resetAge() {
+    setState(() {
+      _currentAge = widget.initialAge;
+      _clickCount = 0;
+      _cardColor = Colors.lightBlue;
+    });
+  }
+
+  void _toggleDetails() {
+    setState(() {
+      _showDetails = !_showDetails;
+    });
+  }
+
+  void _changeCardColor() {
+    // Змінюємо колір в залежності від віку
+    if (_currentAge < 20) {
+      _cardColor = Colors.lightBlue;
+    } else if (_currentAge < 30) {
+      _cardColor = Colors.green;
+    } else if (_currentAge < 40) {
+      _cardColor = Colors.orange;
+    } else {
+      _cardColor = Colors.red;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: _cardColor,
+      elevation: 8.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(
+              Icons.person,
+              size: 60,
+              color: Colors.white,
+            ),
+            const SizedBox(height: 16),
+            
+            // Ім'я користувача (не змінюється)
+            Text(
+              widget.userName,
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 10),
+            
+            // Вік з можливістю зміни
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: _decrementAge,
+                  icon: const Icon(Icons.remove, color: Colors.white),
+                  tooltip: 'Зменшити вік',
+                ),
+                Text(
+                  'Вік: $_currentAge',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
+                ),
+                IconButton(
+                  onPressed: _incrementAge,
+                  icon: const Icon(Icons.add, color: Colors.white),
+                  tooltip: 'Збільшити вік',
+                ),
+              ],
+            ),
+            
+            // Факультет (не змінюється)
+            const SizedBox(height: 8),
+            Text(
+              'Факультет: ${widget.userFaculty}',
+              style: const TextStyle(
+                fontSize: 18,
+                color: Colors.white,
+              ),
+            ),
+            
+            // Додаткова інформація (умовне відображення)
+            const SizedBox(height: 20),
+            if (_showDetails)
+              Column(
+                children: [
+                  const Text(
+                    'Додаткова інформація:',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white70,
+                    ),
+                  ),
+                  Text(
+                    'Кількість змін: $_clickCount',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.white70,
+                    ),
+                  ),
+                  Text(
+                    'Початковий вік: ${widget.initialAge}',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.white70,
+                    ),
+                  ),
+                ],
+              ),
+            
+            // Кнопки управління
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: _resetAge,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueGrey,
+                  ),
+                  child: const Text('Скинути'),
+                ),
+                ElevatedButton(
+                  onPressed: _toggleDetails,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.teal,
+                  ),
+                  child: Text(_showDetails ? 'Сховати' : 'Показати'),
+                ),
+              ],
+            ),
+            
+            // Інформація про стан
+            const SizedBox(height: 20),
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.white24,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                'Це StatefulWidget. Стан змінено $_clickCount разів',
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Colors.white,
+                  fontStyle: FontStyle.italic,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
