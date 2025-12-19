@@ -1,0 +1,213 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Container(
+          color: Colors.white,
+          child: Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                // Верхній ряд: g, f, h, i
+                Row(
+                  children: [
+                    Container(
+                      width: 450, // g
+                      height: 100,
+                      color: Colors.grey[300],
+                      child: Center(child: Text('g')),
+                    ),
+                    SizedBox(width: 10),
+                    Container(
+                      width: 150, // f
+                      height: 100,
+                      color: Colors.grey[400],
+                      child: Center(child: Text('f')),
+                    ),
+                    SizedBox(width: 10),
+                    Container(
+                      width: 500, // h
+                      height: 100,
+                      color: Colors.grey[500],
+                      child: Center(child: Text('h')),
+                    ),
+                    SizedBox(width: 10),
+                    Container(
+                      width: 100, // i
+                      height: 100,
+                      color: Colors.grey[600],
+                      child: Center(child: Text('i')),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+
+                // Другий ряд: m, k, j
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 500, // m
+                      child: Container(
+                        height: 100,
+                        color: Colors.blue[100],
+                        child: Center(child: Text('m')),
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Expanded(
+                      flex: 100, // k
+                      child: Container(
+                        height: 100,
+                        color: Colors.blue[200],
+                        child: Center(child: Text('k')),
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Expanded(
+                      flex: 750, // j
+                      child: Container(
+                        height: 100,
+                        color: Colors.blue[300],
+                        child: Center(child: Text('j')),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+
+                // Текстові блоки
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    color: Colors.white,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // a, b, c
+                        Row(
+                          children: [
+                            Container(
+                              width: 50, // a = min
+                              height: 30,
+                              color: Colors.green[100],
+                              child: Center(child: Text('a')),
+                            ),
+                            SizedBox(width: 10),
+                            Container(
+                              width: 250, // b
+                              height: 30,
+                              color: Colors.green[200],
+                              child: Center(child: Text('b')),
+                            ),
+                            SizedBox(width: 10),
+                            Container(
+                              width: 200, // c
+                              height: 30,
+                              color: Colors.green[300],
+                              child: Center(child: Text('c')),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+
+                        // Вірш
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Душу, тіло ми положим за нашу свободу.',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              SizedBox(height: 5),
+                              Text(
+                                'Ще не вмерла Україна, і слава, і воля, ще нам, браття молодії, усміхнеться доля.',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              SizedBox(height: 5),
+                              Text(
+                                'Згинуть наші вороженьки, як роса на сонці,',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              SizedBox(height: 5),
+                              Text(
+                                'запануєм і ми, браття, у своїй сторонці.',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              SizedBox(height: 5),
+                              Text(
+                                'І покажем, що ми, браття, козацького роду.',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 10),
+
+                        // d, n, p, s, e
+                        Row(
+                          children: [
+                            Container(
+                              width: 150, // d
+                              height: 30,
+                              color: Colors.orange[100],
+                              child: Center(child: Text('d')),
+                            ),
+                            SizedBox(width: 5), // n = 5
+                            Container(
+                              width: 40,
+                              height: 30,
+                              color: Colors.orange[200],
+                              child: Center(child: Text('n')),
+                            ),
+                            SizedBox(width: 4), // p = 4
+                            Container(
+                              width: 40,
+                              height: 30,
+                              color: Colors.orange[300],
+                              child: Center(child: Text('p')),
+                            ),
+                            SizedBox(width: 6), // r = 6
+                            Container(
+                              width: 40,
+                              height: 30,
+                              color: Colors.orange[400],
+                              child: Center(child: Text('r')),
+                            ),
+                            SizedBox(width: 3), // s = 3
+                            Container(
+                              width: 40,
+                              height: 30,
+                              color: Colors.orange[500],
+                              child: Center(child: Text('s')),
+                            ),
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: Container(
+                                height: 30,
+                                color: Colors.orange[600],
+                                child: Center(child: Text('e')),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
