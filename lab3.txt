@@ -1,0 +1,80 @@
+// Клас День
+class Day {
+  String date;          // Дата (наприклад: "2025-09-28")
+  double temperature;   // Температура у цей день
+  String comment;       // Коментар про погоду
+
+  // Конструктор
+  Day(this.date, this.temperature, this.comment);
+
+  // Геттер для довжини коментаря
+  int get commentLength => comment.length;
+
+  @override
+  String toString() {
+    return "Дата: $date, Температура: $temperature°C, Коментар: $comment";
+  }
+}
+
+// Клас Погода
+class Weather {
+  String season;      // Сезон (наприклад: "Осінь")
+  String comment;     // Загальний коментар про сезон
+  List<Day> days;     // Колекція днів (List<Day>)
+
+  // Конструктор
+  Weather(this.season, this.comment, this.days);
+
+  // Метод: знайти середню температуру
+  double averageTemperature() {
+    double sum = 0;
+    for (var day in days) {
+      sum += day.temperature;
+    }
+    return days.isNotEmpty ? sum / days.length : 0;
+  }
+
+  // Метод: знайти день з максимальною температурою
+  Day maxTemperatureDay() {
+    Day maxDay = days[0];
+    for (var day in days) {
+      if (day.temperature > maxDay.temperature) {
+        maxDay = day;
+      }
+    }
+    return maxDay;
+  }
+
+  // Метод: знайти день з найдовшим коментарем
+  Day longestCommentDay() {
+    Day longest = days[0];
+    for (var day in days) {
+      if (day.comment.length > longest.comment.length) {
+        longest = day;
+      }
+    }
+    return longest;
+  }
+
+  @override
+  String toString() {
+    return "Сезон: $season, Коментар: $comment, Днів у списку: ${days.length}";
+  }
+}
+
+// Головна функція main()
+void main() {
+  // Створюємо кілька днів
+  Day day1 = Day("2025-09-25", 18.5, "Сонячно і тепло");
+  Day day2 = Day("2025-09-26", 22.3, "Дуже жарко, безвітряно");
+  Day day3 = Day("2025-09-27", 15.7, "Хмарно з дощем, прохолодно");
+
+  // Створюємо об'єкт Погода
+  Weather autumnWeather = Weather("Осінь", "Погода змінна", [day1, day2, day3]);
+
+  // Виводимо інформацію
+  print(autumnWeather);
+  print("Середня температура: ${autumnWeather.averageTemperature()}°C");
+  print("День з максимальною температурою: ${autumnWeather.maxTemperatureDay()}");
+  print("День з найдовшим коментарем: ${autumnWeather.longestCommentDay()}");
+}

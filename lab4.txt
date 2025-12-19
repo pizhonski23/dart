@@ -1,0 +1,123 @@
+// Generic клас для колекції будь-яких елементів
+class MyCollection<T> {
+  List<T> items = [];
+
+  void add(T item) => items.add(item);
+
+  T getByIndex(int index) => items[index];
+
+  // Generic метод: пошук елемента за умовою
+  T? find(bool Function(T) condition) {
+    for (var item in items) {
+      if (condition(item)) return item;
+    }
+    return null;
+  }
+
+  @override
+  String toString() => items.toString();
+}
+
+// Generic метод: обчислення середнього (працює для чисел)
+T average<T extends num>(List<T> values) {
+  if (values.isEmpty) return (0 as T);
+  num sum = 0;
+  for (var v in values) sum += v;
+  return (sum / values.length) as T;
+}
+
+// Generic метод: пошук максимального значення (універсальний)
+T maxBy<T>(List<T> list, num Function(T) selector) {
+  if (list.isEmpty) throw Exception("Список порожній");
+  T maxItem = list[0];
+  num maxVal = selector(maxItem);
+
+  for (var item in list) {
+    if (selector(item) > maxVal) {
+      maxItem = item;
+      maxVal = selector(item);
+    }
+  }
+  return maxItem;
+}
+
+// Generic метод: пошук мінімального значення (універсальний)
+T minBy<T>(List<T> list, num Function(T) selector) {
+  if (list.isEmpty) throw Exception("Список порожній");
+  T minItem = list[0];
+  num minVal = selector(minItem);
+
+  for (var item in list) {
+    if (selector(item) < minVal) {
+      minItem = item;
+      minVal = selector(item);
+    }
+  }
+  return minItem;
+}
+
+// -----------------------
+// Клас День
+class Day {
+  String date;
+  double temperature;
+  String comment;
+
+  Day(this.date, this.temperature, this.comment);
+
+  int get commentLength => comment.length;
+
+  @override
+  String toString() {
+    return "Дата: $date, Температура: $temperature°C, Коментар: $comment";
+  }
+}
+
+// Клас Погода
+class Weather {
+  String season;
+  String comment;
+  List<Day> days;
+
+  Weather(this.season, this.comment, this.days);
+
+  double averageTemperature() =>
+      average(days.map((d) => d.temperature).toList());
+
+  Day maxTemperatureDay() => maxBy(days, (d) => d.temperature);
+
+  Day longestCommentDay() => maxBy(days, (d) => d.comment.length);
+
+  @override
+  String toString() {
+    return "Сезон: $season, Коментар: $comment, Днів у списку: ${days.length}";
+  }
+}
+
+// -----------------------
+// Головна функція main()
+void main() {
+  Day day1 = Day("2025-09-25", 18.5, "Сонячно і тепло");
+  Day day2 = Day("2025-09-26", 22.3, "Дуже жарко, безвітряно");
+  Day day3 = Day("2025-09-27", 15.7, "Хмарно з дощем, прохолодно");
+
+  Weather autumnWeather =
+      Weather("Осінь", "Погода змінна", [day1, day2, day3]);
+
+  print(autumnWeather);
+  print("Середня температура: ${autumnWeather.averageTemperature()}°C");
+  print("День з максимальною температурою: ${autumnWeather.maxTemperatureDay()}");
+  print("День з найдовшим коментарем: ${autumnWeather.longestCommentDay()}");
+
+  // Використання generic-класу
+  var collection = MyCollection<Day>();
+  collection.add(day1);
+  collection.add(day2);
+  collection.add(day3);
+
+  print("\nКолекція днів:");
+  print(collection);
+
+  print("\nЗнайдений день за умовою (температура > 20):");
+  print(collection.find((d) => d.temperature > 20));
+}

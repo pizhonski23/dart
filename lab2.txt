@@ -1,0 +1,105 @@
+import 'dart:math';
+
+// Абстрактний клас
+abstract class Transport {
+  String name;
+
+  Transport(this.name);
+
+  // Загальні методи для всіх ТЗ
+  double timeToDeliver(double distance, double weight);
+  double costOfDelivery(double distance, double weight);
+
+  void info(double distance, double weight) {
+    print("Транспорт: $name");
+    print("Відстань: $distance км, Вага: $weight кг");
+    print("Час доставки: ${timeToDeliver(distance, weight)} год");
+    print("Вартість доставки: ${costOfDelivery(distance, weight)} грн\n");
+  }
+}
+
+// Підклас Автомобіль
+class Car extends Transport {
+  double speed; // км/год
+  double fuelCostPerKm; // грн за км
+  double maxWeight;
+
+  Car(String name, this.speed, this.fuelCostPerKm, this.maxWeight) : super(name);
+
+  @override
+  double timeToDeliver(double distance, double weight) {
+    if (weight > maxWeight) {
+      print("Перевантаження автомобіля!");
+      return double.infinity;
+    }
+    return distance / speed;
+  }
+
+  @override
+  double costOfDelivery(double distance, double weight) {
+    if (weight > maxWeight) return double.infinity;
+    return distance * fuelCostPerKm;
+  }
+}
+
+// Підклас Велосипед
+class Bicycle extends Transport {
+  double speed;
+  double maxWeight;
+
+  Bicycle(String name, this.speed, this.maxWeight) : super(name);
+
+  @override
+  double timeToDeliver(double distance, double weight) {
+    if (weight > maxWeight) {
+      print("Занадто велика вага для велосипеда!");
+      return double.infinity;
+    }
+    return distance / speed;
+  }
+
+  @override
+  double costOfDelivery(double distance, double weight) {
+    return 0; // безкоштовно :)
+  }
+}
+
+// Підклас Віз
+class Cart extends Transport {
+  double speed;
+  double costPerKm;
+  double maxWeight;
+
+  Cart(String name, this.speed, this.costPerKm, this.maxWeight) : super(name);
+
+  @override
+  double timeToDeliver(double distance, double weight) {
+    if (weight > maxWeight) {
+      print("Перевантаження воза!");
+      return double.infinity;
+    }
+    return distance / speed;
+  }
+
+  @override
+  double costOfDelivery(double distance, double weight) {
+    if (weight > maxWeight) return double.infinity;
+    return distance * costPerKm;
+  }
+}
+
+// =======================
+void main() {
+  double distance = 50; // км
+  double weight = 80; // кг
+
+  List<Transport> transports = [
+    Car("Автомобіль", 60, 2.5, 500),
+    Bicycle("Велосипед", 15, 20),
+    Cart("Віз", 10, 1.0, 200),
+  ];
+
+  for (var t in transports) {
+    t.info(distance, weight);
+  }
+}
